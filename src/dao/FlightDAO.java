@@ -28,12 +28,12 @@ public class FlightDAO {
             System.out.println("Flight added successfully!");
 
         } catch (SQLException e) {
-            System.out.println("Error: " + e.getMessage());
+            System.out.println("Error adding flight: " + e.getMessage());
         }
     }
 
     public Flight getFlightById(int id) {
-        String sql = "SELECT * FROM flights WHERE id = ?";
+        String sql = "SELECT * FROM flights WHERE flight_id = ?";
         Flight flight = null;
 
         try (Connection conn = DBConnection.getConnection();
@@ -47,7 +47,7 @@ public class FlightDAO {
             }
 
         } catch (SQLException e) {
-            System.out.println("Error: " + e.getMessage());
+            System.out.println("Error getting flight: " + e.getMessage());
         }
         return flight;
     }
@@ -65,7 +65,7 @@ public class FlightDAO {
             }
 
         } catch (SQLException e) {
-            System.out.println("Error: " + e.getMessage());
+            System.out.println("Error listing flights: " + e.getMessage());
         }
         return flights;
     }
@@ -86,13 +86,13 @@ public class FlightDAO {
             }
 
         } catch (SQLException e) {
-            System.out.println("Error: " + e.getMessage());
+            System.out.println("Error searching flights: " + e.getMessage());
         }
         return flights;
     }
 
     public void updateSeats(int flightId, int newAvailableSeats) {
-        String sql = "UPDATE flights SET available_seats = ? WHERE id = ?";
+        String sql = "UPDATE flights SET available_seats = ? WHERE flight_id = ?";
 
         try (Connection conn = DBConnection.getConnection();
              PreparedStatement pstmt = conn.prepareStatement(sql)) {
@@ -102,17 +102,17 @@ public class FlightDAO {
             pstmt.executeUpdate();
 
         } catch (SQLException e) {
-            System.out.println("Error: " + e.getMessage());
+            System.out.println("Error updating seats: " + e.getMessage());
         }
     }
 
     private Flight mapRowToFlight(ResultSet rs) throws SQLException {
         return new Flight(
-                rs.getInt("id"),
+                rs.getInt("flight_id"), // Matches SQL column name
                 rs.getString("airline"),
                 rs.getString("origin"),
                 rs.getString("destination"),
-                rs.getString("departure_time"),
+                rs.getString("departure_time"), // Assuming DB stores as String or you convert logic
                 rs.getString("arrival_time"),
                 rs.getInt("total_seats"),
                 rs.getInt("available_seats"),

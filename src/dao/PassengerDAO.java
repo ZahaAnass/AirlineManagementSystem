@@ -29,10 +29,10 @@ public class PassengerDAO {
             }
 
         } catch (SQLException e) {
-            System.out.println("Error: " + e.getMessage());
+            System.out.println("Error adding passenger: " + e.getMessage());
         }
 
-        return generatedId; // Returns -1 if failed, or the new ID if successful
+        return generatedId;
     }
 
     public Passenger getPassengerByEmail(String email) {
@@ -47,7 +47,7 @@ public class PassengerDAO {
 
             if (rs.next()) {
                 passenger = new Passenger(
-                        rs.getInt("id"),
+                        rs.getInt("passenger_id"), // Matches SQL column name
                         rs.getString("name"),
                         rs.getString("email"),
                         rs.getString("phone")
@@ -55,7 +55,7 @@ public class PassengerDAO {
             }
 
         } catch (SQLException e) {
-            System.out.println("Error: " + e.getMessage());
+            System.out.println("Error getting passenger: " + e.getMessage());
         }
         return passenger;
     }
