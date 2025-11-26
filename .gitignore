@@ -28,4 +28,4 @@ bin/
 ### Mac OS ###
 .DS_Store
 
-/libs/
+/libs/mysql-connector-j-9.5.0
