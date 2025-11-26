@@ -7,7 +7,6 @@ import java.sql.*;
 
 public class PassengerDAO {
 
-
     public int addPassenger(Passenger passenger) {
         String sql = "INSERT INTO passengers (name, email, phone) VALUES (?, ?, ?)";
         int generatedId = -1;

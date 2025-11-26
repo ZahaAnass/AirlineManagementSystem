@@ -79,4 +79,30 @@ public class TicketDAO {
             System.out.println("Error: " + e.getMessage());
         }
     }
+
+    public Ticket getTicketById(int ticketId) {
+        String sql = "SELECT * FROM tickets WHERE id = ?";
+        Ticket ticket = null;
+
+        try (Connection conn = DBConnection.getConnection();
+             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+
+            pstmt.setInt(1, ticketId);
+            ResultSet rs = pstmt.executeQuery();
+
+            if (rs.next()) {
+                ticket = new Ticket(
+                        rs.getInt("id"),
+                        rs.getInt("flight_id"),
+                        rs.getInt("passenger_id"),
+                        rs.getTimestamp("booking_time").toLocalDateTime(),
+                        TicketStatus.valueOf(rs.getString("status"))
+                );
+            }
+
+        } catch (SQLException e) {
+            System.out.println("Error: " + e.getMessage());
+        }
+        return ticket;
+    }
 }
